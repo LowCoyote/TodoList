@@ -1,17 +1,25 @@
-import { useContext, useState } from "react";
-import { Dialog } from '@headlessui/react'
+import {Fragment, useContext, useState} from "react";
+import {Dialog, Menu, Transition} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import img from '@/assets/logo-HiFI.svg'
 import { Link } from "react-router-dom";
 import userContext from "@/context/UserContext.tsx";
 
 const navigation = [
-  { name: 'Liste des tâches', to: 'taskList' },
+  { name: "Ajout d'une tâche", to: 'addTask' },
 ]
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 export default function Header() {
   const user = useContext(userContext)?.user
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const userNavigation = [
+    { name: 'Your profile', href: '#' },
+    { name: 'Sign out', href: '#' },
+  ]
 
   return (
     <header className="bg-white">
@@ -36,7 +44,36 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          { user != null ? <p className="text-sm font-semibold leading-6 text-gray-900">{user.name}</p>
+          { user != null ?
+              <Menu as="div" className="relative inline-block text-left">
+              <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                  {userNavigation.map((item) => (
+                      <Menu.Item key={item.name}>
+                        {({ active }) => (
+                            <a
+                                href={item.href}
+                                className={classNames(
+                                    active ? 'bg-gray-50' : '',
+                                    'block px-3 py-1 text-sm leading-6 text-gray-900'
+                                )}
+                            >
+                              {item.name}
+                            </a>
+                        )}
+                      </Menu.Item>
+                  ))}
+                </Menu.Items>
+              </Transition>
+            </Menu>
             :
             <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
               Connexion <span aria-hidden="true">&rarr;</span>

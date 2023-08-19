@@ -1,65 +1,21 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+require('./db');
 const app = express();
+const cors = require('cors');
+const usersRoutes = require('./routes/users');
+const tasksRoutes = require('./routes/tasks');
+const port = 8080;
+
+// Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
+app.use(cors({origin: 'http://localhost:5173'}));
+// Utilisez les routes pour les utilisateurs et les tâches
+app.use('/api/users', usersRoutes);
+app.use('/api/tasks', tasksRoutes);
 
+// Définissez d'autres middlewares et routes si nécessaire
 
-let todoLists = [];
-
-// Route to get all todoLists
-app.get('/todolists', (req, res) => {
-    res.status(200).json(todoLists);
+// Démarrez le serveur
+app.listen(port, () => {
+    console.log(`Serveur démarré sur le port ${port}`);
 });
-
-// Route to get a todoLists
-app.get('/todolists/:id', (req, res) => {
-    const { id } = req.params;
-    const todoList = todoLists.find((t) => t.id === id);
-
-    if (!todoList) {
-        return res.status(404).json({ error: 'TodoList not found' });
-    }
-
-    res.status(200).json(todoList);
-});
-
-// Route to create a new todoList
-app.post('/todolists', (req, res) => {
-    const todoList = {
-        id: uuidv4(),
-        name: req.body.name,
-        tasks: req.body.tasks,
-    };
-    todoLists.push(todoList);
-    res.status(201).json(todoList);
-});
-
-// Route to update a todoList
-app.put('/todolists/:id', (req, res) => {
-    const { id } = req.params;
-    const body = req.body;
-    const todoList = todoLists.find((t) => t.id === id);
-
-    if (!todoList) {
-        return res.status(404).json({ error: 'TodoList not found' });
-    }
-
-    Object.assign(todoList,body)
-    res.status(200).json(todoList);
-});
-
-// Route to delete a todoList
-app.delete('/todolists/:id', (req, res) => {
-    const { id } = req.params;
-
-    const todoListIndex = todoLists.findIndex(t => t.id === id);
-    if (todoListIndex === -1) {
-        return res.status(404).json({ error: 'TodoList not found' });
-    }
-
-    todoLists.splice(todoListIndex, 1);
-    res.status(204).send();
-});
-
-const PORT = 8080;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

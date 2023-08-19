@@ -5,6 +5,7 @@ import UserContext from "@/context/UserContext.tsx";
 import { useState } from "react";
 import { User } from "@/types/User.ts";
 import Login from "@/views/Authentication/Login.tsx";
+import Register from "@/views/Authentication/Register.tsx";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </UserContext.Provider>
   )
