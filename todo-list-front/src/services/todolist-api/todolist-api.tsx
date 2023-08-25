@@ -67,3 +67,24 @@ export const deleteUserById = async (id: string) => {
         throw new Error("Erreur lors de la suppression de l'utilisateur");
     }
 };
+
+export const getTasks = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/tasks`);
+        return response.data;
+    } catch (error) {
+        throw new Error("Erreur lors de la récupération des tâches");
+    }
+}
+
+export const addTasks = async (title: string, description: string) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/tasks`, {
+            title,
+            description,
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error("Erreur lors de la création de la tâche");
+    }
+}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { User } from "@/types/User.ts";
 import Login from "@/views/Authentication/Login.tsx";
 import Register from "@/views/Authentication/Register.tsx";
+import AddTask from "@/views/AddTask.tsx";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
+          <Route path="/add-task" element={<AddTask />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

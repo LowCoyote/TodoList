@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {Dialog} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import img from '@/assets/logo-HiFI.svg'
@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import userContext from "@/context/UserContext.tsx";
 
 const navigation = [
-  { name: "Ajout d'une tâche", to: 'addTask' },
+  { name: "Ajout d'une tâche", to: 'add-task' },
 ]
 
-export default function Header() {
+const Header: React.FC = () =>{
   const user = useContext(userContext)?.user
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -31,13 +31,13 @@ export default function Header() {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <Link key={item.name} to={item.to} className="text-sm font-semibold leading-6 text-gray-900">
-              {item.name}
-            </Link>
-          ))}
           { user != null ?
               <>
+                {navigation.map((item) => (
+                    <Link key={item.name} to={item.to} className="text-sm font-semibold leading-6 text-gray-900">
+                      {item.name}
+                    </Link>
+                ))}
               <Link to="/profile" className="group block flex-shrink-0">
                 <div className="flex items-center">
                   <div className="ml-3">
@@ -106,3 +106,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header;

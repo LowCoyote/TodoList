@@ -1,4 +1,3 @@
-//create a user context
 import { createContext, Dispatch, SetStateAction } from "react";
 import { User } from "@/types/User.ts";
 
