@@ -1,5 +1,5 @@
 import React, {useState, FormEvent, useContext} from "react";
-import {Link, redirect} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {login} from "@/services/todolist-api/todolist-api.tsx";
 import UserContext from "@/context/UserContext.tsx";
@@ -8,6 +8,7 @@ const Login: React.FC = () => {
   const user = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate= useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const Login: React.FC = () => {
     try {
         login(email, password).then(r => {
           user?.setUser({name: r.name, email: r.email, id: r.id});
-          redirect("/")
+          navigate("/")
           toast.success("Vous êtes connecté");
         });
     }

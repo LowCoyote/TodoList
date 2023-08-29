@@ -88,3 +88,25 @@ export const addTasks = async (title: string, description: string) => {
         throw new Error("Erreur lors de la création de la tâche");
     }
 }
+
+export const removeTaskById = async (id: number) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/tasks/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error("Erreur lors de la suppression de la tâche");
+    }
+}
+
+export const updateTaskById = async (id: number, title: string, description: string, completed: boolean) => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/tasks/${id}`, {
+            title,
+            description,
+            completed,
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error("Erreur lors de la mise à jour de la tâche");
+    }
+}

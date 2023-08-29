@@ -7,6 +7,9 @@ import { User } from "@/types/User.ts";
 import Login from "@/views/Authentication/Login.tsx";
 import Register from "@/views/Authentication/Register.tsx";
 import AddTask from "@/views/AddTask.tsx";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
+import ModifyTask from "@/views/ModifyTask.tsx";
 
 function App() {
 
@@ -18,9 +21,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
           <Route path="/add-task" element={<AddTask />} />
+          <Route path="/modify-task/:id" element={<ModifyTask />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+        <ToastContainer />
     </UserContext.Provider>
   )
 }
